@@ -1,6 +1,6 @@
 <?php
 require_once '../src/db.php';
-require_once '../src/GerenciadorMensagem.php';
+
 
 $pdo = conectarBD();
 
@@ -43,7 +43,7 @@ try {
 <body>
     <div class="container">
         <h1>Obrigado por sua Avaliação!</h1>
-        <p>Sua resposta é muito importante para melhorar nossos serviços.</p>
+        <p>Sua resposta é de muita valia para nós.</p>
         <p>Você será redirecionado para a página inicial em <span id="contador">5</span> segundos...</p>
     </div>
     <script>
