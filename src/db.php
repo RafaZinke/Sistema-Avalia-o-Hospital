@@ -1,19 +1,22 @@
 <?php
-require_once 'functions.php';
-$conexao = conectarBanco();
 
-// Processar submissão
-$respostas = $_POST['respostas'];
-$feedback = $_POST['feedback'] ?? null;
-$id_dispositivo = 1; // ID fixo para testes, substituir pela lógica real.
+function conectarBD(){
+    try {
+        $host = 'localhost'; // Nome do host
+        $db = 'SistemaRafael'; // Nome do Banco de Dados
+        $user = 'postgres'; // Nome Usuário
+        $pass = 'postgres'; // Senha Usuário
+        $port = '5432'; // Porta padrão PostgreSQL
 
-foreach ($respostas as $id_pergunta => $resposta) {
-    $query = "INSERT INTO avaliacoes (id_setor, id_pergunta, id_dispositivo, resposta, feedback) 
-              VALUES (1, $id_pergunta, $id_dispositivo, $resposta, $1)";
-    $stmt = pg_prepare($conexao, "inserir_avaliacao", $query);
-    pg_execute($conexao, "inserir_avaliacao", [$feedback]);
+        $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$user;password=$pass";
+
+        $pdo = new PDO($dsn);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return $pdo;
+
+    } catch (PDOException $e) {
+        error_log("Erro ao conectar: " . $e->getMessage());
+        return null;
+    }
 }
-
-header("Location: obrigado.php");
-exit;
-?>

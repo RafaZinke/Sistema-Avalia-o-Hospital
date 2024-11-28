@@ -1,46 +1,50 @@
 <?php
-require_once 'functions.php';
-$conexao = conectarBanco();
+require_once '../src/db.php'; // Inclua o arquivo de conexão com o banco de dados
 
-// Buscar perguntas ativas
-$query = "SELECT * FROM perguntas WHERE status = TRUE ORDER BY id";
-$resultado = pg_query($conexao, $query);
-$perguntas = pg_fetch_all($resultado);
+$pdo = conectarBD();
 
+// Buscar setores e dispositivos no banco de dados
+$setores = $pdo->query("SELECT id, nome FROM setor WHERE status = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
+$dispositivos = $pdo->query("SELECT id, nome FROM dispositivo WHERE status = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avaliação - HRAV</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Seleção de Setor e Dispositivo</title>
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <form action="submit.php" method="POST" id="form-avaliacao">
-        <h1>Avaliação de Serviços</h1>
-        <?php foreach ($perguntas as $pergunta): ?>
-            <div class="pergunta">
-                <label><?= htmlspecialchars($pergunta['texto']) ?></label>
-                <div class="escala">
-                    <?php for ($i = 0; $i <= 10; $i++): ?>
-                        <label>
-                            <input type="radio" name="respostas[<?= $pergunta['id'] ?>]" value="<?= $i ?>" required>
-                            <?= $i ?>
-                        </label>
-                    <?php endfor; ?>
-                </div>
+    <div class="container">
+        <h1>Selecione o Setor e Dispositivo</h1>
+        <form action="formulario.php" method="GET">
+            <!-- Campo para selecionar o setor -->
+            <div class="form-group">
+                <label for="setor">Setor:</label>
+                <select name="setor_id" id="setor" required>
+                    <option value="">Escolha um setor</option>
+                    <?php foreach ($setores as $setor): ?>
+                        <option value="<?= $setor['id'] ?>"><?= htmlspecialchars($setor['nome']) ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
-        <?php endforeach; ?>
-        <div class="feedback">
-            <label>Feedback adicional (opcional):</label>
-            <textarea name="feedback"></textarea>
-        </div>
-        <div class="anonimato">
-            <p>Sua avaliação espontânea é anônima, nenhuma informação pessoal é solicitada ou armazenada.</p>
-        </div>
-        <button type="submit">Enviar Avaliação</button>
-    </form>
-    <script src="script.js"></script>
+
+            <!-- Campo para selecionar o dispositivo -->
+            <div class="form-group">
+                <label for="dispositivo">Dispositivo:</label>
+                <select name="dispositivo_id" id="dispositivo" required>
+                    <option value="">Escolha um dispositivo</option>
+                    <?php foreach ($dispositivos as $dispositivo): ?>
+                        <option value="<?= $dispositivo['id'] ?>"><?= htmlspecialchars($dispositivo['nome']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Botão para iniciar a avaliação -->
+            <button type="submit" class="btn">Iniciar Avaliação</button>
+        </form>
+    </div>
 </body>
 </html>

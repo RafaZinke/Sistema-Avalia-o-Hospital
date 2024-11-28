@@ -1,17 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obrigado</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="obrigado">
-        <h1>Obrigado!</h1>
-        <p>O Hospital Regional Alto Vale (HRAV) agradece sua resposta e ela é muito importante para nós, pois nos ajuda a melhorar continuamente nossos serviços.</p>
-        <p>Você será redirecionado em <span id="contador">5</span> segundos.</p>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+<?php
+require_once '../src/db.php';
+
+$pdo = conectarBD();
+
+// Capturar os dados enviados pelo formulário
+$setor_id = filter_input(INPUT_POST, 'setor_id', FILTER_VALIDATE_INT);
+$dispositivo_id = filter_input(INPUT_POST, 'dispositivo_id', FILTER_VALIDATE_INT);
+$nota = filter_input(INPUT_POST, 'nota', FILTER_VALIDATE_INT);
+$feedback = filter_input(INPUT_POST, 'feedback', FILTER_SANITIZE_STRING);
+
+if (!$setor_id || !$dispositivo_id || !$nota) {
+    die("Dados inválidos!");
+}
+
+// Inserir no banco de dados
+$stmt = $pdo->prepare("
+    INSERT INTO avaliacoes (setor_id, dispositivo_id, resposta, feedback) 
+    VALUES (:setor_id, :dispositivo_id, :nota, :feedback)
+");
+$stmt->execute([
+    ':setor_id' => $setor_id,
+    ':dispositivo_id' => $dispositivo_id,
+    ':nota' => $nota,
+    ':feedback' => $feedback ?: null
+]);
+
+// Redirecionar para a página de obrigado
+header("Location: obrigado.php");
+exit;
+?>
