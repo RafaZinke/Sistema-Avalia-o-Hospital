@@ -2,11 +2,11 @@
 
 function conectarBD(){
     try {
-        $host = 'localhost'; // Nome do host
-        $db = 'SistemaRafael'; // Nome do Banco de Dados
-        $user = 'postgres'; // Nome Usuário
-        $pass = 'postgres'; // Senha Usuário
-        $port = '5432'; // Porta padrão PostgreSQL
+        $host = 'localhost'; 
+        $db = 'SistemaRafael'; 
+        $user = 'postgres';
+        $pass = 'postgres'; 
+        $port = '5432'; 
 
         $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$user;password=$pass";
 

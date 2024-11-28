@@ -3,12 +3,12 @@ require_once '../src/db.php';
 
 $pdo = conectarBD();
 
-// Validar seleção
+
 $setor_id = filter_input(INPUT_GET, 'setor_id', FILTER_VALIDATE_INT);
 $dispositivo_id = filter_input(INPUT_GET, 'dispositivo_id', FILTER_VALIDATE_INT);
 
 
-// Obter perguntas
+
 $perguntas = $pdo->query("SELECT id, texto FROM perguntas WHERE status = 1 ORDER BY ordem ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -25,7 +25,7 @@ $perguntas = $pdo->query("SELECT id, texto FROM perguntas WHERE status = 1 ORDER
     <div class="container">
         <h1>Avaliação de Serviços</h1>
         <form action="obrigado.php" method="POST">
-            <!-- Campos ocultos para enviar IDs -->
+           
             <input type="hidden" name="setor_id" value="<?= htmlspecialchars($setor_id) ?>">
             <input type="hidden" name="dispositivo_id" value="<?= htmlspecialchars($dispositivo_id) ?>">
             <input type="hidden" name="nota" id="nota">

@@ -4,18 +4,18 @@ require_once '../src/db.php';
 
 $pdo = conectarBD();
 
-// Capturar os dados enviados pelo formulário
+
 $setor_id = filter_input(INPUT_POST, 'setor_id', FILTER_VALIDATE_INT);
 $dispositivo_id = filter_input(INPUT_POST, 'dispositivo_id', FILTER_VALIDATE_INT);
 $nota = filter_input(INPUT_POST, 'nota', FILTER_VALIDATE_INT);
 $feedback = filter_input(INPUT_POST, 'feedback', FILTER_SANITIZE_STRING);
 
-// Verificar se os dados são válidos
+
 if ($setor_id === null || $dispositivo_id === null || $nota === null) {
     die("Erro: Dados inválidos. Certifique-se de preencher todos os campos obrigatórios.");
 }
 
-// Inserir no banco de dados
+
 try {
     $stmt = $pdo->prepare("
         INSERT INTO avaliacoes (setor_id, dispositivo_id, resposta, feedback) 
@@ -47,8 +47,8 @@ try {
         <p>Você será redirecionado para a página inicial em <span id="contador">5</span> segundos...</p>
     </div>
     <script>
-        // Configuração da contagem regressiva
-        let contador = 5; // Tempo inicial em segundos
+       
+        let contador = 5; 
         const elementoContador = document.getElementById("contador");
 
         const intervalo = setInterval(() => {

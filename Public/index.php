@@ -1,9 +1,9 @@
 <?php
-require_once '../src/db.php'; // Inclua o arquivo de conexão com o banco de dados
+require_once '../src/db.php'; 
 
 $pdo = conectarBD();
 
-// Buscar setores e dispositivos no banco de dados
+
 $setores = $pdo->query("SELECT id, nome FROM setor WHERE status = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
 $dispositivos = $pdo->query("SELECT id, nome FROM dispositivo WHERE status = 1 ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -20,7 +20,7 @@ $dispositivos = $pdo->query("SELECT id, nome FROM dispositivo WHERE status = 1 O
     <div class="container">
         <h1>Selecione o Setor e Dispositivo</h1>
         <form action="formulario.php" method="GET">
-            <!-- Campo para selecionar o setor -->
+          
             <div class="form-group">
                 <label for="setor">Setor:</label>
                 <select name="setor_id" id="setor" required>
@@ -31,7 +31,7 @@ $dispositivos = $pdo->query("SELECT id, nome FROM dispositivo WHERE status = 1 O
                 </select>
             </div>
 
-            <!-- Campo para selecionar o dispositivo -->
+            
             <div class="form-group">
                 <label for="dispositivo">Dispositivo:</label>
                 <select name="dispositivo_id" id="dispositivo" required>
@@ -42,7 +42,7 @@ $dispositivos = $pdo->query("SELECT id, nome FROM dispositivo WHERE status = 1 O
                 </select>
             </div>
 
-            <!-- Botão para iniciar a avaliação -->
+            
             <button type="submit" class="btn">Iniciar Avaliação</button>
         </form>
     </div>
