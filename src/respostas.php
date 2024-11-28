@@ -11,7 +11,7 @@ $responseData = [
 
 // Validação de campos obrigatórios
 if (!$responseData['sectorId'] || !$responseData['deviceId'] || !$responseData['score']) {
-    die("Error: Missing required fields.");
+    die("Campos faltantes");
 }
 
 // Inserir no banco
@@ -21,7 +21,7 @@ if (insertRecord('avaliacoes', [
     'resposta' => $responseData['score'],
     'feedback' => $responseData['comments'] ?: null
 ], '../public/index.php')) {
-    echo "Response successfully recorded!";
+    echo "Resposta salva com sucesso";
 } else {
-    echo "Failed to save response.";
+    echo "Não salvou a resposta.";
 }

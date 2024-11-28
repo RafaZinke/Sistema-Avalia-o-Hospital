@@ -36,8 +36,16 @@ CREATE TABLE avaliacoes (
 
 INSERT INTO perguntas  VALUES (1, 'Como você avalia o atendimento?',1,1);
 
-INSERT INTO SETOR VALUES (1, 'RECEPCAO', 1);
+INSERT INTO perguntas  VALUES (2, 'Como voce avalia o espaco',2,1);
+
+INSERT INTO perguntas  VALUES (3, 'Voce recomendaria para um amigo/parente',3,1);
+
+INSERT INTO SETOR VALUES (1, 'Recepcao', 1);
+
+INSERT INTO SETOR VALUES (2, 'Consultorio', 1);
+
 
 INSERT INTO DISPOSITIVO VALUES  (1,'TABLET 1', 1);
 
+INSERT INTO DISPOSITIVO VALUES  (2,'TABLET 2', 1);
 
