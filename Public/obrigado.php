@@ -1,5 +1,6 @@
 <?php
 require_once '../src/db.php';
+require_once '../src/GerenciadorMensagem.php';
 
 $pdo = conectarBD();
 
@@ -9,23 +10,57 @@ $dispositivo_id = filter_input(INPUT_POST, 'dispositivo_id', FILTER_VALIDATE_INT
 $nota = filter_input(INPUT_POST, 'nota', FILTER_VALIDATE_INT);
 $feedback = filter_input(INPUT_POST, 'feedback', FILTER_SANITIZE_STRING);
 
-if (!$setor_id || !$dispositivo_id || !$nota) {
-    die("Dados inválidos!");
+// Verificar se os dados são válidos
+if ($setor_id === null || $dispositivo_id === null || $nota === null) {
+    die("Erro: Dados inválidos. Certifique-se de preencher todos os campos obrigatórios.");
 }
 
 // Inserir no banco de dados
-$stmt = $pdo->prepare("
-    INSERT INTO avaliacoes (setor_id, dispositivo_id, resposta, feedback) 
-    VALUES (:setor_id, :dispositivo_id, :nota, :feedback)
-");
-$stmt->execute([
-    ':setor_id' => $setor_id,
-    ':dispositivo_id' => $dispositivo_id,
-    ':nota' => $nota,
-    ':feedback' => $feedback ?: null
-]);
-
-// Redirecionar para a página de obrigado
-header("Location: obrigado.php");
-exit;
+try {
+    $stmt = $pdo->prepare("
+        INSERT INTO avaliacoes (setor_id, dispositivo_id, resposta, feedback) 
+        VALUES (:setor_id, :dispositivo_id, :nota, :feedback)
+    ");
+    $stmt->execute([
+        ':setor_id' => $setor_id,
+        ':dispositivo_id' => $dispositivo_id,
+        ':nota' => $nota,
+        ':feedback' => $feedback ?: null,
+    ]);
+} catch (PDOException $e) {
+    die("Erro ao registrar a avaliação. Por favor, tente novamente mais tarde.");
+}
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado!</title>
+    <link rel="stylesheet" href="css/obrigado.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Obrigado por sua Avaliação!</h1>
+        <p>Sua resposta é muito importante para melhorar nossos serviços.</p>
+        <p>Você será redirecionado para a página inicial em <span id="contador">5</span> segundos...</p>
+    </div>
+    <script>
+        // Configuração da contagem regressiva
+        let contador = 5; // Tempo inicial em segundos
+        const elementoContador = document.getElementById("contador");
+
+        const intervalo = setInterval(() => {
+            contador--;
+            elementoContador.textContent = contador;
+
+            if (contador === 0) {
+                clearInterval(intervalo);
+                window.location.href = "index.php";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,35 @@
+body {
+  font-family: "Roboto", Arial, sans-serif;
+  background: #f8f9fa;
+  color: #212529;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #0056b3;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 16px;
+  margin-top: 10px;
+}
+#contador {
+  font-weight: bold;
+  color: #d9534f; /* Vermelho */
+  font-size: 20px;
+}

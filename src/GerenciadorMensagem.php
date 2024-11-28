@@ -28,10 +28,10 @@ class GerenciadorMensagem {
             'aviso' => '⚠',
         ];
 
-        $icone = $icones[$mensagem['tipo']];
+        $icone = $icones[$mensagem['tipo']] ?? '';
         echo '<div id="mensagemSistema" class="mensagem-sistema">';
-        echo '<span class="icone-mensagem">' . $icone . '</span>';
-        echo '<span class="texto-mensagem">' . $mensagem['texto'] . '</span>';
+        echo '<span class="icone-mensagem">' . htmlspecialchars($icone) . '</span>';
+        echo '<span class="texto-mensagem">' . htmlspecialchars($mensagem['texto']) . '</span>';
         echo '</div>';
     }
 
@@ -61,6 +61,7 @@ class GerenciadorMensagem {
                         $pagina
                     );
                     error_log('Erro PDO: ' . $e->getMessage());
+                    break;
             }
         } else {
             self::definirMensagem(
@@ -70,6 +71,5 @@ class GerenciadorMensagem {
             );
             error_log('Erro não tratado: ' . $e->getMessage());
         }
-
-        header('Location: ' . $pagina);
-    
+    }
+}

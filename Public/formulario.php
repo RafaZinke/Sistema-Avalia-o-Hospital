@@ -7,9 +7,6 @@ $pdo = conectarBD();
 $setor_id = filter_input(INPUT_GET, 'setor_id', FILTER_VALIDATE_INT);
 $dispositivo_id = filter_input(INPUT_GET, 'dispositivo_id', FILTER_VALIDATE_INT);
 
-if (!$setor_id || !$dispositivo_id) {
-    die("Setor ou dispositivo inválido!");
-}
 
 // Obter perguntas
 $perguntas = $pdo->query("SELECT id, texto FROM perguntas WHERE status = 1 ORDER BY ordem ASC")->fetchAll(PDO::FETCH_ASSOC);
